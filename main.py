@@ -1,12 +1,24 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import os
+from googletrans import Translator
+
+def translate(text,src="id",tgt="en"):
+    translator = Translator()
+    result = translator.translate(text, tgt, src)
+    return result.text
 
 app = Flask(__name__)
 
-
-@app.route('/')
+@app.route('/translate', methods=['POST'])
 def index():
-    return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
+    data = request.get_json()
+    # text = data['text']
+    # model = (data['model']).split("_")
+    # for i in range(9):
+    #     text = translate(text,model[i],model[i+1])
+    # return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
+    # return jsonify({"Choo Choo": text})
+    return jsonify({"Choo Choo": data})
 
 
 if __name__ == '__main__':
